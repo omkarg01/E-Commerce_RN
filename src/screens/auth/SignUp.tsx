@@ -31,6 +31,23 @@ const SignUp: React.FC = (): JSX.Element => {
 
   const [register, {isLoading}] = useRegisterMutation();
 
+  const submitHandler = async () => {
+    if (validation({username, email, password, confirmPassword})) {
+      const res = await register({
+        username,
+        email,
+        password,
+        confirmPassword,
+      }).unwrap();
+      if (res) {
+        console.log(res);
+        navigation.navigate('TabNavigator');
+      }
+    } else {
+      console.error('Invalid credentials');
+    }
+  };
+
   const renderHeader = () => {
     return <components.Header goBack={true} />;
   };
@@ -83,11 +100,7 @@ const SignUp: React.FC = (): JSX.Element => {
         <components.Button
           title='Sign up'
           containerStyle={{marginBottom: 20}}
-          onPress={() => {
-            if (validation({username, email, password, confirmPassword})) {
-              navigation.navigate('VerifyYourPhoneNumber');
-            }
-          }}
+          onPress={submitHandler}
         />
         <ParsedText
           style={{...theme.fonts.textStyle_16, color: theme.colors.textColor}}

@@ -6,13 +6,13 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {text} from '../../text';
 import {theme} from '../../constants';
 import {components} from '../../components';
-import {useAppDispatch, useAppNavigation, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppNavigation} from '../../hooks';
 import {validation} from '../../utils/validation';
 import {setCredentials} from '../../store/slices/authSlice';
-import {useEffectOnce} from 'usehooks-ts';
+// import {useEffectOnce} from 'usehooks-ts';
 import {useLoginMutation} from '../../store/slices/usersApiSlice';
-import {err} from 'react-native-svg/lib/typescript/xml';
-// import {useLoginMutation} from '../../store/slices/apiSlice';
+// import {err} from 'react-native-svg/lib/typescript/xml';
+import {UserType} from '../../types/UserType';
 
 const SignIn: React.FC = () => {
   const navigation = useAppNavigation();
@@ -24,21 +24,15 @@ const SignIn: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [login, {isLoading}] = useLoginMutation();
-  // const {
-  //   data: carouselData,
-  //   error: carouselError,
-  //   isLoading: carouselLoading,
-  // } = useLoginQuery();
 
-  const submitHandler = async (e: any) => {
-    e.preventDefault();
+  const submitHandler = async () => {
     if (validation({email, password})) {
       const res = await login({email, password}).unwrap();
+      rememberMe ? dispatch(setCredentials({email, password})) : null;
       if (res) {
         console.log(res);
-        rememberMe ? dispatch(setCredentials({email, password})) : null;
+        navigation.navigate('TabNavigator');
       }
-      navigation.navigate('TabNavigator');
     } else {
       console.error('Invalid credentials');
     }
@@ -101,23 +95,7 @@ const SignIn: React.FC = () => {
         <components.Button
           title='Sign in'
           containerStyle={{marginBottom: 20}}
-          onPress={async () => {
-            // e.preventDefault();
-            try {
-              if (validation({email, password})) {
-                const res = await login({email, password}).unwrap();
-                rememberMe ? dispatch(setCredentials({email, password})) : null;
-                if (res) {
-                  console.log(res);
-                  navigation.navigate('TabNavigator');
-                }
-              } else {
-                console.error('Invalid credentials');
-              }
-            } catch (error) {
-              throw error;
-            }
-          }}
+          onPress={submitHandler}
         />
         <ParsedText
           style={{...theme.fonts.textStyle_16, color: theme.colors.textColor}}
