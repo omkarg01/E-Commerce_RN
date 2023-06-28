@@ -13,6 +13,7 @@ import {setCredentials} from '../../store/slices/authSlice';
 import {useLoginMutation} from '../../store/slices/usersApiSlice';
 // import {err} from 'react-native-svg/lib/typescript/xml';
 import {UserType} from '../../types/UserType';
+// import {useLoginMutation} from '../../store/slices/apiSlice';
 
 const SignIn: React.FC = () => {
   const navigation = useAppNavigation();
@@ -27,7 +28,7 @@ const SignIn: React.FC = () => {
 
   const submitHandler = async () => {
     if (validation({email, password})) {
-      const res = await login({email, password}).unwrap();
+      const res = await login().unwrap();
       rememberMe ? dispatch(setCredentials({email, password})) : null;
       if (res) {
         console.log(res);

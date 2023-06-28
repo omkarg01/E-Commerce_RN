@@ -4,10 +4,7 @@ import {apiSlice} from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<
-      {user: UserType},
-      {email: string; password: string}
-    >({
+    login: builder.mutation<{user: UserType}, void>({
       query: () => ({
         url: `${USER_URL}/auth.json`,
         method: 'GET',

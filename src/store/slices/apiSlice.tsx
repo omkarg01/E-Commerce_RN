@@ -2,8 +2,8 @@ import {BASE_URL} from '@env';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 import {ProductType, BannerType, CarouselType} from '../../types';
-import {USER_URL} from '../../constants/constants';
 import {UserType} from '../../types/UserType';
+import {USER_URL} from '../../constants/constants';
 
 export const apiSlice = createApi({
   reducerPath: 'apiSlice',
@@ -19,19 +19,13 @@ export const apiSlice = createApi({
     getCarousel: builder.query<{carousel: CarouselType[]}, void>({
       query: () => 'carousel.json',
     }),
-    // login: builder.mutation<
-    //   {user: UserType},
-    //   {email: string; password: string}
-    // >({
+    // login: builder.mutation<{user: UserType}, void>({
     //   query: () => ({
-    //     // query: () => ({
     //     url: `${USER_URL}/auth.json`,
     //     method: 'GET',
     //     // body: data,
-    //     // }),
     //   }),
     // }),
-    // register: builder.mutation<
   }),
 });
 
