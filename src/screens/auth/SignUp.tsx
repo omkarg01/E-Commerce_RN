@@ -8,6 +8,7 @@ import {components} from '../../components';
 import {useAppNavigation} from '../../hooks';
 import {validation} from '../../utils/validation';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useRegisterMutation} from '../../store/slices/usersApiSlice';
 
 const SignUp: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -27,6 +28,8 @@ const SignUp: React.FC = (): JSX.Element => {
 
     return unsubscribe;
   }, [navigation]);
+
+  const [register, {isLoading}] = useRegisterMutation();
 
   const renderHeader = () => {
     return <components.Header goBack={true} />;

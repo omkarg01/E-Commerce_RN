@@ -306,6 +306,10 @@ const payments = [
   },
 ];
 
+const USERS_URL = 'users.json';
+
+const USER_URL = 'users';
+
 export {
   history,
   onboardingData,
@@ -318,4 +322,6 @@ export {
   tabs,
   sortingBy,
   payments,
+  USERS_URL,
+  USER_URL,
 };

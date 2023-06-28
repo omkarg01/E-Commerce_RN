@@ -10,6 +10,9 @@ import {useAppDispatch, useAppNavigation, useAppSelector} from '../../hooks';
 import {validation} from '../../utils/validation';
 import {setCredentials} from '../../store/slices/authSlice';
 import {useEffectOnce} from 'usehooks-ts';
+import {useLoginMutation} from '../../store/slices/usersApiSlice';
+import {err} from 'react-native-svg/lib/typescript/xml';
+// import {useLoginMutation} from '../../store/slices/apiSlice';
 
 const SignIn: React.FC = () => {
   const navigation = useAppNavigation();
@@ -19,6 +22,27 @@ const SignIn: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const dispatch = useAppDispatch();
+
+  const [login, {isLoading}] = useLoginMutation();
+  // const {
+  //   data: carouselData,
+  //   error: carouselError,
+  //   isLoading: carouselLoading,
+  // } = useLoginQuery();
+
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    if (validation({email, password})) {
+      const res = await login({email, password}).unwrap();
+      if (res) {
+        console.log(res);
+        rememberMe ? dispatch(setCredentials({email, password})) : null;
+      }
+      navigation.navigate('TabNavigator');
+    } else {
+      console.error('Invalid credentials');
+    }
+  };
 
   const renderHeader = () => {
     return <components.Header goBack={true} />;
@@ -77,10 +101,21 @@ const SignIn: React.FC = () => {
         <components.Button
           title='Sign in'
           containerStyle={{marginBottom: 20}}
-          onPress={() => {
-            if (validation({email, password})) {
-              rememberMe ? dispatch(setCredentials({email, password})) : null;
-              navigation.navigate('TabNavigator');
+          onPress={async () => {
+            // e.preventDefault();
+            try {
+              if (validation({email, password})) {
+                const res = await login({email, password}).unwrap();
+                rememberMe ? dispatch(setCredentials({email, password})) : null;
+                if (res) {
+                  console.log(res);
+                  navigation.navigate('TabNavigator');
+                }
+              } else {
+                console.error('Invalid credentials');
+              }
+            } catch (error) {
+              throw error;
             }
           }}
         />
