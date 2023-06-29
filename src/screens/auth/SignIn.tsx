@@ -12,7 +12,7 @@ import {setCredentials} from '../../store/slices/authSlice';
 // import {useEffectOnce} from 'usehooks-ts';
 import {useLoginMutation} from '../../store/slices/usersApiSlice';
 // import {err} from 'react-native-svg/lib/typescript/xml';
-import {UserType} from '../../types/UserType';
+// import {UserType} from '../../types/UserType';
 // import {useLoginMutation} from '../../store/slices/apiSlice';
 
 const SignIn: React.FC = () => {

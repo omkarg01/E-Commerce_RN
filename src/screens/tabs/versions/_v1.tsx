@@ -1,11 +1,17 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
 
+import // useGetProductsQuery,
+// useGetCarouselQuery,
+// useGetBannersQuery,
+'../../../store/slices/apiSlice';
+
 import {
   useGetProductsQuery,
   useGetCarouselQuery,
   useGetBannersQuery,
-} from '../../../store/slices/apiSlice';
+} from '../../../store/slices/productsApiSlice';
+
 import {components} from '../../../components';
 import {categories_3} from '../../../constants';
 import type {ProductType} from '../../../types';

@@ -8,17 +8,17 @@ import {USER_URL} from '../../constants/constants';
 export const apiSlice = createApi({
   reducerPath: 'apiSlice',
   baseQuery: fetchBaseQuery({baseUrl: BASE_URL}),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Products'],
   endpoints: (builder) => ({
-    getProducts: builder.query<{products: ProductType[]}, void>({
-      query: () => 'products.json',
-    }),
-    getBanners: builder.query<{banners: BannerType[]}, void>({
-      query: () => 'banners.json',
-    }),
-    getCarousel: builder.query<{carousel: CarouselType[]}, void>({
-      query: () => 'carousel.json',
-    }),
+    // getProducts: builder.query<{products: ProductType[]}, void>({
+    //   query: () => 'products.json',
+    // }),
+    // getBanners: builder.query<{banners: BannerType[]}, void>({
+    //   query: () => 'banners.json',
+    // }),
+    // getCarousel: builder.query<{carousel: CarouselType[]}, void>({
+    //   query: () => 'carousel.json',
+    // }),
     // login: builder.mutation<{user: UserType}, void>({
     //   query: () => ({
     //     url: `${USER_URL}/auth.json`,
@@ -30,8 +30,8 @@ export const apiSlice = createApi({
 });
 
 export const {
-  useGetProductsQuery,
-  useGetBannersQuery,
-  useGetCarouselQuery,
+  // useGetProductsQuery,
+  // useGetBannersQuery,
+  // useGetCarouselQuery,
   // useLoginMutation,
 } = apiSlice;
