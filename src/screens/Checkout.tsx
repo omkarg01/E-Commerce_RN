@@ -11,6 +11,10 @@ import {addresses} from '../constants';
 import {useAppSelector} from '../hooks';
 import {components} from '../components';
 import {useAppNavigation} from '../hooks';
+import {OrderType} from '../types/OrderType';
+import {PaymentResult} from '../types/PaymentResult';
+import {ProductType} from '../types';
+import {usePayOrderMutation} from '../store/slices/ordersApiSlice';
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -24,15 +28,46 @@ const Checkout: React.FC = (): JSX.Element => {
   const delivery = useAppSelector((state) => state.cart.delivery).toFixed(0);
   const subtotal = useAppSelector((state) => state.cart.total).toFixed(1);
   const discount = useAppSelector((state) => state.cart.discount).toFixed(1);
+  const email = useAppSelector((state) => state.auth.email);
+
+  const [payOrder, {isLoading}] = usePayOrderMutation();
+
   const total = (
     Number(subtotal) -
     Number(discount) +
     Number(delivery)
   ).toFixed(2);
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
+    let currentDate = new Date().toISOString();
+    let paymentResult: PaymentResult = {
+      id: 1,
+      status: 'success',
+      update_time: currentDate.split('T')[1],
+      email,
+    };
+
+    // let orderItems: ProductType[] = [];
+
+    let order: OrderType = {
+      user: 1,
+      date: currentDate.split('T')[0],
+      total: total as unknown as number,
+      orderItems: cart,
+      delivery,
+      status: 'Shipping',
+      discount: discount as unknown as number,
+      shippingAddress: address,
+      paymentMethod: payment,
+      paymentResult,
+      isPaid: true,
+      paidAt: currentDate.split('T')[0],
+      isDelivered: false,
+    };
+
+    const res = await payOrder().unwrap();
+    console.log('res', res);
     // console.log(order);
-    // const order =
     navigation.navigate('OrderSuccessful');
     // navigation.navigate('OrderFailed');
   };
