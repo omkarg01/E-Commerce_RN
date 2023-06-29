@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
 
-import // useGetProductsQuery,
+// import useGetProductsQuery,
 // useGetCarouselQuery,
 // useGetBannersQuery,
-'../../../store/slices/apiSlice';
+// '../../../store/slices/apiSlice';
 
 import {
   useGetProductsQuery,
@@ -124,6 +124,7 @@ const _v1: React.FC = (): JSX.Element => {
         >
           {slice?.map(
             (item: ProductType, index: number, array: ProductType[]) => {
+              console.log('productsData', productsData);
               const lastItem = index === array.length - 1;
               return (
                 <components.ProductCard

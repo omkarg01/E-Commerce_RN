@@ -21,6 +21,7 @@ const ProductPrice: React.FC<Props> = ({
   version,
   numberOfLines = 1,
 }): JSX.Element => {
+  // console.log('price', item.price);
   const dispatch = useAppDispatch();
 
   if (version === 1) {
@@ -82,11 +83,12 @@ const ProductPrice: React.FC<Props> = ({
           <Text
             style={{
               ...theme.fonts.DMSans_700Bold,
+              color: theme.colors.mainColor,
               fontSize: 20,
               lineHeight: 20 * 1.4,
             }}
           >
-            ${item.price}
+            ${item.price.toFixed(2)}
           </Text>
         </View>
       );

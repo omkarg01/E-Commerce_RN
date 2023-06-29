@@ -6,7 +6,7 @@ import {text} from '../text';
 import {theme} from '../constants';
 import {components} from '../components';
 import {useAppNavigation} from '../hooks';
-import {useGetProductsQuery} from '../store/slices/apiSlice';
+import {useGetProductsQuery} from '../store/slices/productsApiSlice';
 import type {ProductType, RootStackParamList} from '../types';
 import {getAllColors, getAllSizes, getAllTags} from '../utils';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';

@@ -7,7 +7,7 @@ import {theme, sortingBy} from '../constants';
 import {svg} from '../assets/svg';
 import {components} from '../components';
 import type {RootStackParamList} from '../types';
-import {useGetProductsQuery} from '../store/slices/apiSlice';
+import {useGetProductsQuery} from '../store/slices/productsApiSlice';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Shop'>;

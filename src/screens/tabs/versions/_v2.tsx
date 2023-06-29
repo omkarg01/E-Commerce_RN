@@ -4,7 +4,7 @@ import {View, ScrollView, Text} from 'react-native';
 import {
   useGetProductsQuery,
   useGetBannersQuery,
-} from '../../../store/slices/apiSlice';
+} from '../../../store/slices/productsApiSlice';
 import {useAppDispatch} from '../../../hooks';
 import {components} from '../../../components';
 import {categories_3} from '../../../constants';
