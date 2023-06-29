@@ -30,6 +30,13 @@ const Checkout: React.FC = (): JSX.Element => {
     Number(delivery)
   ).toFixed(2);
 
+  const submitHandler = () => {
+    // console.log(order);
+    // const order =
+    navigation.navigate('OrderSuccessful');
+    // navigation.navigate('OrderFailed');
+  };
+
   const renderHeader = () => {
     return <components.Header title='Checkout' goBack={true} />;
   };
@@ -221,10 +228,7 @@ const Checkout: React.FC = (): JSX.Element => {
         containerStyle={{
           margin: 20,
         }}
-        onPress={() => {
-          navigation.navigate('OrderSuccessful');
-          // navigation.navigate('OrderFailed');
-        }}
+        onPress={submitHandler}
       />
     );
   };
@@ -366,7 +370,7 @@ const Checkout: React.FC = (): JSX.Element => {
               marginHorizontal: 20,
             }}
           >
-            Choose delivery address:
+            Choose payment method:
           </Text>
           {payments.map((item, index) => {
             return (

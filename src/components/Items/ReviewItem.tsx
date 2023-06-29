@@ -99,7 +99,7 @@ const ReviewItem: React.FC<Props> = ({item, array, index}): JSX.Element => {
           >
             {item.name}
           </Text>
-          <Text
+          {/* <Text
             style={{
               ...theme.fonts.DMSans_400Regular,
               fontSize: 12,
@@ -109,7 +109,7 @@ const ReviewItem: React.FC<Props> = ({item, array, index}): JSX.Element => {
             onPress={() => console.log('reply')}
           >
             reply
-          </Text>
+          </Text> */}
         </View>
         <Text
           style={{...theme.fonts.textStyle_14, color: theme.colors.textColor}}

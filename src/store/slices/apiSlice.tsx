@@ -8,7 +8,7 @@ import {USER_URL} from '../../constants/constants';
 export const apiSlice = createApi({
   reducerPath: 'apiSlice',
   baseQuery: fetchBaseQuery({baseUrl: BASE_URL}),
-  tagTypes: ['User', 'Products'],
+  tagTypes: ['User', 'Products', 'Orders'],
   endpoints: (builder) => ({
     // getProducts: builder.query<{products: ProductType[]}, void>({
     //   query: () => 'products.json',
