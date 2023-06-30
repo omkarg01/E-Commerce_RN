@@ -17,7 +17,7 @@ const OrderHistory: React.FC = (): JSX.Element => {
   const renderContent: () => JSX.Element = () => {
     return (
       <ScrollView>
-        {/* {version === 1 && <_v1 />} */}
+        {version === 1 && <_v1 />}
         {version === 2 && <_v2 />}
       </ScrollView>
     );

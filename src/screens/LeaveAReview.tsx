@@ -37,7 +37,8 @@ const LeaveAReview: React.FC = (): JSX.Element => {
             marginBottom: 14,
           }}
         >
-          Please rate the quality of{'\n'}service for the order!
+          {/* Please rate the quality of{'\n'}service for the order! */}
+          Please rate the quality of{'\n'}the product!
         </Text>
         <components.RatingStars
           containerStyle={{
@@ -53,7 +54,7 @@ const LeaveAReview: React.FC = (): JSX.Element => {
             marginBottom: 60,
           }}
         >
-          Your comments and suggestions help us improve the service quality
+          Your comments and suggestions help us improve the product quality
           better!
         </Text>
         <components.InputFieldBig
