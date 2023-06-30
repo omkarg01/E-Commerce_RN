@@ -49,7 +49,7 @@ const HistoryDataFooter: React.FC<Props> = ({version}): JSX.Element => {
             repeat order
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('LeaveAReview')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('LeaveAReview')}>
           <Text
             style={{
               marginLeft: 6,
@@ -59,7 +59,7 @@ const HistoryDataFooter: React.FC<Props> = ({version}): JSX.Element => {
           >
             leave a review
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }

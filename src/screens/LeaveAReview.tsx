@@ -1,14 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {svg} from '../assets/svg';
 import {theme} from '../constants';
 import {components} from '../components';
-import {useAppNavigation} from '../hooks';
+import {useAppNavigation, useAppSelector} from '../hooks';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types';
+import {useGetProfileQuery} from '../store/slices/usersApiSlice';
+import {UserType} from '../types/UserType';
+import {ReviewType} from '../types/ReviewType';
+import {useCreateReviewMutation} from '../store/slices/productsApiSlice';
 
-const LeaveAReview: React.FC = (): JSX.Element => {
+type Props = NativeStackScreenProps<RootStackParamList, 'LeaveAReview'>;
+
+const LeaveAReview: React.FC<Props> = ({route}): JSX.Element => {
+  const {reviews} = route.params;
+  const [comment, setComment] = useState('');
+  const [ratingValue, setRatingValue] = useState(0);
+
+  const {data: userData, error, isLoading} = useGetProfileQuery();
+  const [createReview] = useCreateReviewMutation();
+
   const navigation = useAppNavigation();
+
+  const submitHandler = async () => {
+    const profile = userData as UserType;
+    let review: ReviewType = {
+      id: profile.id,
+      name: profile.name,
+      comment: comment,
+      rating: ratingValue,
+      date: new Date().toString(),
+      image: profile.image,
+    };
+
+    try {
+      const res = await createReview(review).unwrap();
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+    // navigation.goBack();
+  };
 
   const renderHeader = () => {
     return <components.Header goBack={true} />;
@@ -44,6 +79,8 @@ const LeaveAReview: React.FC = (): JSX.Element => {
           containerStyle={{
             marginBottom: 20,
           }}
+          setRatingValue={setRatingValue}
+          ratingValue={ratingValue}
         />
         <Text
           style={{
@@ -61,13 +98,9 @@ const LeaveAReview: React.FC = (): JSX.Element => {
           containerStyle={{
             marginBottom: 20,
           }}
+          setComment={setComment}
         />
-        <components.Button
-          title='submit'
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        <components.Button title='submit' onPress={submitHandler} />
       </KeyboardAwareScrollView>
     );
   };

@@ -13,7 +13,7 @@ export type RootStackParamList = {
   OrderFailed: undefined;
   AddANewCard: undefined;
   OrderHistory: undefined;
-  LeaveAReview: undefined;
+  LeaveAReview: {reviews: ReviewType[]};
   MyPromocodes: undefined;
   TabNavigator: undefined;
   Notifications: undefined;

@@ -5,9 +5,13 @@ import {theme} from '../../constants';
 
 type Props = {
   containerStyle?: object;
+  setComment: any;
 };
 
-const InputFieldBig: React.FC<Props> = ({containerStyle}): JSX.Element => {
+const InputFieldBig: React.FC<Props> = ({
+  containerStyle,
+  setComment,
+}): JSX.Element => {
   return (
     <View
       style={{
@@ -34,6 +38,7 @@ const InputFieldBig: React.FC<Props> = ({containerStyle}): JSX.Element => {
         textAlignVertical='top'
         multiline={true}
         placeholderTextColor='#A8BCCC'
+        onChangeText={setComment}
       />
       <View
         style={{

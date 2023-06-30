@@ -4,11 +4,15 @@ import {View, TouchableOpacity} from 'react-native';
 
 type Props = {
   containerStyle?: object;
+  setRatingValue: any;
+  ratingValue: number;
 };
 
-const RatingStars: React.FC<Props> = ({containerStyle}): JSX.Element => {
-  const [ratingValue, setRatingValue] = useState(0);
-
+const RatingStars: React.FC<Props> = ({
+  containerStyle,
+  setRatingValue,
+  ratingValue,
+}): JSX.Element => {
   return (
     <View
       style={{

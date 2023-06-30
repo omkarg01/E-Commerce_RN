@@ -314,6 +314,10 @@ const ORDERS_URL = 'orders.json';
 
 const ORDER_URL = 'orders';
 
+const PRODUCTS_URL = 'products.json';
+
+const PRODUCT_URL = 'products';
+
 export {
   history,
   onboardingData,
@@ -330,4 +334,6 @@ export {
   USER_URL,
   ORDERS_URL,
   ORDER_URL,
+  PRODUCTS_URL,
+  PRODUCT_URL,
 };

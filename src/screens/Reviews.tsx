@@ -25,7 +25,7 @@ const Reviews: React.FC<Props> = ({route}): JSX.Element => {
           paddingHorizontal: 20,
           marginTop: 20,
         }}
-        onPress={() => navigation.navigate('LeaveAReview')}
+        onPress={() => navigation.navigate('LeaveAReview', {reviews})}
       />
     );
   };
