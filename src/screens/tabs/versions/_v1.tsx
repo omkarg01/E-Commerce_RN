@@ -49,6 +49,7 @@ const _v1: React.FC = (): JSX.Element => {
 
   const renderCarousel = () => {
     const carousel = carouselData?.carousel;
+    // console.log('carousel', carousel);
 
     return (
       <ScrollView
@@ -99,6 +100,7 @@ const _v1: React.FC = (): JSX.Element => {
 
   const renderBestSellers = () => {
     const products = productsData?.products;
+    // console.log('products', products);
     const bestSellers = products?.filter(
       (item: ProductType) => item.is_bestseller,
     );

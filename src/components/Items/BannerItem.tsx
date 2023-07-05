@@ -12,6 +12,7 @@ type Props = {version: number; banner: BannerType};
 
 const BannerItem: React.FC<Props> = ({version, banner}): JSX.Element | null => {
   const navigation = useAppNavigation();
+  // console.log('banner', banner);
 
   if (version === 1) {
     return (

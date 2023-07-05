@@ -5,7 +5,7 @@ import {theme} from '../../constants';
 
 type Props = {
   containerStyle?: object;
-  setComment: any;
+  setComment?: any;
 };
 
 const InputFieldBig: React.FC<Props> = ({

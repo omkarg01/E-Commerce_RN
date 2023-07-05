@@ -28,7 +28,7 @@ const SignIn: React.FC = () => {
 
   const submitHandler = async () => {
     if (validation({email, password})) {
-      const res = await login().unwrap();
+      const res = await login({email, password}).unwrap();
       rememberMe ? dispatch(setCredentials({email, password})) : null;
       if (res) {
         console.log(res);

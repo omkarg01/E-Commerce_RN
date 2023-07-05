@@ -37,6 +37,10 @@ const InCart: React.FC<Props> = ({item, containerStyle}): JSX.Element => {
             description: `${item.name} added to cart`,
             type: 'success',
             icon: 'success',
+            position: 'top',
+            style: {
+              marginTop: 70,
+            },
           });
         }
       }}

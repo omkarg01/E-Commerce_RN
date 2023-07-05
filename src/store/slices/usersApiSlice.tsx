@@ -1,14 +1,17 @@
-import {USERS_URL, USER_URL} from '../../constants/constants';
+import {USERS_URL} from '../../constants/constants';
 import {UserType} from '../../types/UserType';
 import {apiSlice} from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<{user: UserType}, void>({
-      query: () => ({
-        url: `${USER_URL}/auth.json`,
-        method: 'GET',
-        // body: data,
+    login: builder.mutation<
+      {user: UserType},
+      {email: string; password: string}
+    >({
+      query: (data) => ({
+        url: `${USERS_URL}/auth`,
+        method: 'POST',
+        body: data,
       }),
     }),
     register: builder.mutation<{user: UserType}, UserType>({
@@ -20,7 +23,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     getProfile: builder.query<UserType, void>({
       query: () => ({
-        url: `${USER_URL}/profile.json`,
+        url: `${USERS_URL}/profile.json`,
         method: 'GET',
         // body: data,
       }),

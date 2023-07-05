@@ -306,17 +306,17 @@ const payments = [
   },
 ];
 
-const USERS_URL = 'users.json';
+// const USERS_URL = 'users.json';
 
-const USER_URL = 'users';
+const USERS_URL = 'users';
 
-const ORDERS_URL = 'orders.json';
+// const ORDER_URL = 'orders.json';
 
-const ORDER_URL = 'orders';
+const ORDERS_URL = 'orders';
 
-const PRODUCTS_URL = 'products.json';
+// const PRODUCTS_URL = 'products.json';
 
-const PRODUCT_URL = 'products';
+const PRODUCTS_URL = 'products';
 
 export {
   history,
@@ -331,9 +331,6 @@ export {
   sortingBy,
   payments,
   USERS_URL,
-  USER_URL,
   ORDERS_URL,
-  ORDER_URL,
   PRODUCTS_URL,
-  PRODUCT_URL,
 };

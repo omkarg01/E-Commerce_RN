@@ -1,4 +1,4 @@
-import {PRODUCT_URL, USERS_URL, USER_URL} from '../../constants/constants';
+import {PRODUCTS_URL, USERS_URL} from '../../constants/constants';
 import {BannerType, CarouselType, ProductType} from '../../types';
 import {ReviewType} from '../../types/ReviewType';
 import {UserType} from '../../types/UserType';
@@ -7,17 +7,17 @@ import {apiSlice} from './apiSlice';
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<{products: ProductType[]}, void>({
-      query: () => 'products.json',
+      query: () => 'products',
     }),
     getBanners: builder.query<{banners: BannerType[]}, void>({
-      query: () => 'banners.json',
+      query: () => 'banners',
     }),
     getCarousel: builder.query<{carousel: CarouselType[]}, void>({
-      query: () => 'carousel.json',
+      query: () => 'carousel',
     }),
     createReview: builder.mutation<{review: ReviewType}, ReviewType>({
       query: (data) => ({
-        url: `${PRODUCT_URL}/${data.id}/reviews.json`,
+        url: `${PRODUCTS_URL}/${data.id}/reviews.json`,
         method: 'GET',
         // body: data,
       }),

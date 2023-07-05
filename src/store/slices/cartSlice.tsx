@@ -11,8 +11,8 @@ type CartItemType = {
 const initialState: CartItemType = {
   list: [],
   total: 0,
-  discount: 2.88,
-  delivery: 2,
+  discount: 0,
+  delivery: 0,
 };
 
 const cartSlice = createSlice({

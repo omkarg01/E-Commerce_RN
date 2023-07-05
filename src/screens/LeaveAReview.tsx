@@ -12,6 +12,7 @@ import {useGetProfileQuery} from '../store/slices/usersApiSlice';
 import {UserType} from '../types/UserType';
 import {ReviewType} from '../types/ReviewType';
 import {useCreateReviewMutation} from '../store/slices/productsApiSlice';
+import {showMessage} from 'react-native-flash-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'LeaveAReview'>;
 
@@ -39,10 +40,20 @@ const LeaveAReview: React.FC<Props> = ({route}): JSX.Element => {
     try {
       const res = await createReview(review).unwrap();
       console.log(res);
-    } catch (err) {
+      navigation.goBack();
+    } catch (err: any) {
       console.error(err);
+      showMessage({
+        message: 'Success',
+        description: err?.data?.message,
+        type: 'danger',
+        icon: 'danger',
+        position: 'top',
+        style: {
+          marginTop: 70,
+        },
+      });
     }
-    // navigation.goBack();
   };
 
   const renderHeader = () => {

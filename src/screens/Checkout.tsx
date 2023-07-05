@@ -39,7 +39,8 @@ const Checkout: React.FC = (): JSX.Element => {
   ).toFixed(2);
 
   const submitHandler = async () => {
-    let currentDate = new Date().toISOString();
+    // let currentDate = new Date().toISOString();
+    let currentDate = 'Feb 25, 2023 at 8:32 PMT12:51:19.758Z';
     let paymentResult: PaymentResult = {
       id: 1,
       status: 'success',
@@ -123,7 +124,7 @@ const Checkout: React.FC = (): JSX.Element => {
         />
         <components.ContainerItem
           title='Delivery'
-          price={`$${delivery}`}
+          price={Number(delivery) > 0 ? `- $${delivery}` : 'No delivery charge'}
           containerStyle={{
             marginBottom: 0,
           }}
