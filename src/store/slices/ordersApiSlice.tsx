@@ -6,18 +6,18 @@ import {apiSlice} from './apiSlice';
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation({
+    createOrder: builder.mutation<{order: OrderType}, OrderType>({
       query: (order) => ({
         url: ORDERS_URL,
-        method: 'GET',
+        method: 'POST',
         body: order,
       }),
     }),
-    payOrder: builder.mutation<{order: OrderType}, void>({
-      query: () => ({
-        url: `${ORDERS_URL}/1/pay.json`,
-        method: 'GET',
-        // body: order,
+    payOrder: builder.mutation<{order: OrderType}, OrderType>({
+      query: (order) => ({
+        url: `${ORDERS_URL}/1/pay`,
+        method: 'PUT',
+        body: order,
       }),
     }),
   }),

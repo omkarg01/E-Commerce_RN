@@ -301,9 +301,14 @@ const payments = [
   },
   {
     id: 3,
-    type: 'Apple Pay',
-    icon: 'https://george-fx.github.io/kastelli/payments/03.png',
+    type: 'Google Pay',
+    icon: 'https://george-fx.github.io/cuppies/resources/payments/03.png',
   },
+  // {
+  //   id: 4,
+  //   type: 'Google Pay',
+  //   icon: 'https://george-fx.github.io/kastelli/payments/03.png',
+  // },'https://george-fx.github.io/cuppies/resources/payments/03.png'
 ];
 
 // const USERS_URL = 'users.json';

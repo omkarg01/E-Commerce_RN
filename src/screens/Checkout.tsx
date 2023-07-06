@@ -14,7 +14,10 @@ import {useAppNavigation} from '../hooks';
 import {OrderType} from '../types/OrderType';
 import {PaymentResult} from '../types/PaymentResult';
 import {ProductType} from '../types';
-import {usePayOrderMutation} from '../store/slices/ordersApiSlice';
+import {
+  useCreateOrderMutation,
+  usePayOrderMutation,
+} from '../store/slices/ordersApiSlice';
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -30,7 +33,8 @@ const Checkout: React.FC = (): JSX.Element => {
   const discount = useAppSelector((state) => state.cart.discount).toFixed(1);
   const email = useAppSelector((state) => state.auth.email);
 
-  const [payOrder, {isLoading}] = usePayOrderMutation();
+  // const [payOrder, {isLoading}] = usePayOrderMutation();
+  const [createOrder, {isLoading}] = useCreateOrderMutation();
 
   const total = (
     Number(subtotal) -
@@ -66,7 +70,7 @@ const Checkout: React.FC = (): JSX.Element => {
       isDelivered: false,
     };
 
-    const res = await payOrder().unwrap();
+    const res = await createOrder(order).unwrap();
     console.log('res', res);
     // console.log(order);
     navigation.navigate('OrderSuccessful');
@@ -434,13 +438,17 @@ const Checkout: React.FC = (): JSX.Element => {
                         ? 40.43
                         : item.type === 'Mastercard'
                         ? 26.59
-                        : item.type === 'Apple Pay' && 40.2,
+                        : item.type === 'Google Pay' && 120.2,
+                    // ? 40.2
+                    // : item.type === 'Google Pay' && 40.2,
                     height:
                       item.type === 'Visa'
                         ? 12
                         : item.type === 'Mastercard'
                         ? 16
-                        : item.type === 'Apple Pay' && 16,
+                        : item.type === 'Google Pay' && 20,
+                    // ? 16
+                    // : item.type === 'Google Pay' && 16,
                   }}
                 />
                 <text.T14
