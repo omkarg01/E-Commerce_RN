@@ -1,8 +1,8 @@
 export type ReviewType = {
-  id: number;
-  name: string;
+  id: number | undefined;
+  name: string | undefined;
   rating: number;
   comment: string;
-  image: string;
+  image: string | undefined;
   date: string;
 };

@@ -27,14 +27,14 @@ const LeaveAReview: React.FC<Props> = ({route}): JSX.Element => {
   const navigation = useAppNavigation();
 
   const submitHandler = async () => {
-    const profile = userData as UserType;
+    // const profile = userData;
     let review: ReviewType = {
-      id: profile.id,
-      name: profile.name,
+      id: userData?.id,
+      name: userData?.name,
       comment: comment,
       rating: ratingValue,
       date: new Date().toString(),
-      image: profile.image,
+      image: userData?.image,
     };
 
     try {

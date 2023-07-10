@@ -1,3 +1,4 @@
+import {AddressType} from './AddressType';
 import {ProductType} from './ProductType';
 import {ReviewType} from './ReviewType';
 
@@ -20,7 +21,7 @@ export type RootStackParamList = {
   PaymentMethod: undefined;
   ForgotPassword: undefined;
   TrackYourOrder: undefined;
-  AddANewAddress: undefined;
+  AddANewAddress?: {address: AddressType};
   OrderSuccessful: undefined;
   ConfirmationCode: undefined;
   Product: {item: ProductType};

@@ -82,8 +82,17 @@ const cartSlice = createSlice({
       }
     },
     saveAddress: (state, action: PayloadAction<AddressType>) => {
-      action.payload.id = state.list.length === 0 ? 1 : state.list.length + 1;
+      action.payload.id =
+        state.address.length === 0 ? 1 : state.address.length + 1;
       state.address.push(action.payload);
+    },
+
+    editAddress: (state, action: PayloadAction<AddressType>) => {
+      if (action.payload.id) {
+        console.log(state.address);
+        state.address[action.payload.id - 1] = action.payload;
+        console.log(state.address);
+      }
     },
 
     resetCart: (state) => {
@@ -99,6 +108,7 @@ export const {
   removeFromCart,
   resetCart,
   fullRemoveFromCart,
+  editAddress,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

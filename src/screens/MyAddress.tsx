@@ -18,8 +18,6 @@ const MyAddress: React.FC = (): JSX.Element => {
   };
 
   const renderContent = () => {
-    console.log('addresses', addresses);
-
     return (
       <ScrollView
         contentContainerStyle={{
@@ -46,7 +44,9 @@ const MyAddress: React.FC = (): JSX.Element => {
                 justifyContent: 'space-between',
                 borderColor: theme.colors.lightBlue,
               }}
-              onPress={() => navigation.navigate('AddANewAddress')}
+              onPress={() =>
+                navigation.navigate('AddANewAddress', {address: item})
+              }
             >
               <View>
                 <View

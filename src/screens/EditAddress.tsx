@@ -4,25 +4,17 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {text} from '../text';
 import {components} from '../components';
-import {useAppDispatch, useAppNavigation} from '../hooks';
-import {editAddress, saveAddress} from '../store/slices/cartSlice';
+import {useAppDispatch, useAppNavigation, useAppSelector} from '../hooks';
+import {saveAddress} from '../store/slices/cartSlice';
 import {AddressType} from '../types/AddressType';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../types';
-import {showMessage} from 'react-native-flash-message';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'AddANewAddress'>;
-
-const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
-  const {address: currentAddress} = route.params || {};
+const EditAddress: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
 
-  console.log('currentAddress', currentAddress);
-
   const [selected, setSelected] = useState(false);
-  const [title, setTitle] = useState(currentAddress?.type);
-  const [address, setAddress] = useState(currentAddress?.address);
+  const [title, setTitle] = useState('');
+  const [address, setAddress] = useState('');
 
   const renderHeader = () => {
     return <components.Header title='Add a new address' goBack={true} />;
@@ -47,6 +39,7 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
   };
 
   const renderContent = () => {
+    console.log('address', address);
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -64,7 +57,6 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
           containerStyle={{
             marginBottom: 22,
           }}
-          value={title}
           onChangeText={(text) => setTitle(text)}
         />
         <components.InputField
@@ -73,10 +65,9 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
           containerStyle={{
             marginBottom: 22,
           }}
-          value={address}
           onChangeText={(text) => setAddress(text)}
         />
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{marginBottom: 10, flexDirection: 'row', alignItems: 'center'}}
           onPress={() => setSelected(!selected)}
         >
@@ -88,37 +79,23 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
           >
             Use current location
           </text.T14>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </KeyboardAwareScrollView>
     );
   };
 
   const renderButton = () => {
     const onSave = () => {
-      if (title && address) {
-        const newAddress: AddressType = {
-          id: currentAddress?.id,
-          type: title,
-          address: address,
-        };
-        currentAddress
-          ? dispatch(editAddress(newAddress))
-          : dispatch(saveAddress(newAddress));
-        navigation.goBack();
-      } else {
-        showMessage({
-          message: 'Please enter Title and Address',
-          type: 'info',
-          icon: 'info',
-          style: {
-            marginTop: 70,
-          },
-        });
-      }
+      const newAddress: AddressType = {
+        type: title,
+        address: address,
+      };
+      dispatch(saveAddress(newAddress));
+      navigation.goBack();
     };
     return (
       <components.Button
-        title={currentAddress ? 'update' : 'save address'}
+        title='save address'
         onPress={onSave}
         containerStyle={{
           margin: 20,
@@ -137,4 +114,4 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
   );
 };
 
-export default AddANewAddress;
+export default EditAddress;
