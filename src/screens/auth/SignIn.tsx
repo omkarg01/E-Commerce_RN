@@ -11,6 +11,7 @@ import {validation} from '../../utils/validation';
 import {setCredentials} from '../../store/slices/authSlice';
 // import {useEffectOnce} from 'usehooks-ts';
 import {useLoginMutation} from '../../store/slices/usersApiSlice';
+import {Text} from 'react-native-svg';
 // import {err} from 'react-native-svg/lib/typescript/xml';
 // import {UserType} from '../../types/UserType';
 // import {useLoginMutation} from '../../store/slices/apiSlice';
@@ -53,7 +54,7 @@ const SignIn: React.FC = () => {
           flexGrow: 1,
         }}
       >
-        <text.H1 style={{marginBottom: 14}}>Welcome Back!</text.H1>
+        <text.H1 style={{marginBottom: 14}}>Welcome To CANDIBRAIN!</text.H1>
         <text.T16 style={{marginBottom: 40}}>Sign in to continue</text.T16>
         <components.InputField
           label='Email'
@@ -139,7 +140,7 @@ const SignIn: React.FC = () => {
     <components.SafeAreaView>
       {renderHeader()}
       {renderContent()}
-      {renderFooter()}
+      {/* {renderFooter()} */}
     </components.SafeAreaView>
   );
 };

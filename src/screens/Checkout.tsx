@@ -90,7 +90,7 @@ const Checkout: React.FC = (): JSX.Element => {
       >
         <components.ContainerItem
           title='My order'
-          price={`$${subtotal}`}
+          price={`₹${subtotal}`}
           titleStyle={{
             ...theme.fonts.H4,
             color: theme.colors.mainColor,
@@ -116,7 +116,7 @@ const Checkout: React.FC = (): JSX.Element => {
               <components.ContainerItem
                 key={index}
                 title={item.name}
-                price={`${item.quantity} x $${item.price}`}
+                price={`${item.quantity} x ₹${item.price}`}
               />
             );
           })}
@@ -124,11 +124,11 @@ const Checkout: React.FC = (): JSX.Element => {
 
         <components.ContainerItem
           title='Discount'
-          price={Number(discount) > 0 ? `- $${discount}` : 'No discount'}
+          price={Number(discount) > 0 ? `- ₹${discount}` : 'No discount'}
         />
         <components.ContainerItem
           title='Delivery'
-          price={Number(delivery) > 0 ? `- $${delivery}` : 'No delivery charge'}
+          price={Number(delivery) > 0 ? `- ₹${delivery}` : 'No delivery charge'}
           containerStyle={{
             marginBottom: 0,
           }}
@@ -194,7 +194,7 @@ const Checkout: React.FC = (): JSX.Element => {
               color: theme.colors.textColor,
             }}
           >
-            8000 S Kirkland Ave, Chicago, IL 6065...
+            7060/V Magan Nihar Complex, Mumbai - 4012...
           </Text>
         </View>
         <svg.SmallArrowSvg />

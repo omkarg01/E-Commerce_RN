@@ -143,7 +143,7 @@ const SignUp: React.FC = (): JSX.Element => {
     <components.SafeAreaView>
       {renderHeader()}
       {renderContent()}
-      {renderFooter()}
+      {/* {renderFooter()} */}
     </components.SafeAreaView>
   );
 };

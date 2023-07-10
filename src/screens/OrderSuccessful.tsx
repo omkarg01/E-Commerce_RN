@@ -28,6 +28,14 @@ const OrderSuccessful: React.FC<Props> = ({navigation}): JSX.Element => {
         contentContainerStyle={{...scrollViewStyle}}
         showsVerticalScrollIndicator={false}
       >
+        <text.H1
+          style={{
+            marginTop: 30,
+            marginBottom: 14,
+          }}
+        >
+          CANDIBRAIN
+        </text.H1>
         <svg.CheckSvg />
         <text.H2
           style={{

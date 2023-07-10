@@ -68,7 +68,7 @@ const Order: React.FC = (): JSX.Element => {
       >
         <components.ContainerItem
           title='Subtotal'
-          price={`$${subtotal}`}
+          price={`₹${subtotal}`}
           titleStyle={{
             ...theme.fonts.H5,
             color: theme.colors.mainColor,
@@ -80,7 +80,7 @@ const Order: React.FC = (): JSX.Element => {
         />
         <components.ContainerItem
           title='Delivery'
-          price={`$${delivery}`}
+          price={`₹${delivery}`}
           containerStyle={{
             marginBottom: 14,
           }}
@@ -88,7 +88,7 @@ const Order: React.FC = (): JSX.Element => {
         <components.ContainerLine />
         <components.ContainerItem
           title='Total'
-          price={`$${total}`}
+          price={`₹${total}`}
           containerStyle={{
             marginBottom: 0,
           }}

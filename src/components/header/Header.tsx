@@ -118,7 +118,7 @@ const Header: React.FC<Props> = ({
                 fontSize: 10,
               }}
             >
-              {cart.length > 0 ? `$${total}` : '$0'}
+              {cart.length > 0 ? `₹${total}` : '₹ 0'}
             </Text>
           </View>
           <svg.HeaderBasketSvg />

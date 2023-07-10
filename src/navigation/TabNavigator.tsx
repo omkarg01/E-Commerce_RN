@@ -22,6 +22,9 @@ const TabNavigator: React.FC = (): JSX.Element => {
       if (currentTabScreen === 'Order') {
         return 'Order';
       }
+      if (currentTabScreen === 'Home') {
+        return 'CANDIBRAIN';
+      }
     };
 
     const border = () => {

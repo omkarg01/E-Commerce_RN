@@ -15,10 +15,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     register: builder.mutation<{user: UserType}, UserType>({
-      query: () => ({
+      query: (data) => ({
         url: `${USERS_URL}`,
-        method: 'GET',
-        // body: data,
+        method: 'POST',
+        body: data,
       }),
     }),
     getProfile: builder.query<UserType, void>({
