@@ -3,17 +3,23 @@ import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 
 import {svg} from '../assets/svg';
 import {components} from '../components';
-import {useAppNavigation} from '../hooks';
-import {addresses, theme} from '../constants';
+import {useAppNavigation, useAppSelector} from '../hooks';
+import {theme} from '../constants';
 
 const MyAddress: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
+
+  const addresses = useAppSelector((state) => state.cart.address);
+
+  console.log(addresses[0].type);
 
   const renderHeader = () => {
     return <components.Header goBack={true} title='My address' />;
   };
 
   const renderContent = () => {
+    console.log('addresses', addresses);
+
     return (
       <ScrollView
         contentContainerStyle={{
@@ -51,7 +57,14 @@ const MyAddress: React.FC = (): JSX.Element => {
                   }}
                 >
                   <View style={{marginRight: 10}}>
-                    <item.icon />
+                    {/* {} */}
+                    {item.type === 'Home' ? (
+                      <svg.HomeSvg />
+                    ) : item.type === 'Office' ? (
+                      <svg.BriefcaseSvg />
+                    ) : (
+                      <svg.MapPinSvg />
+                    )}
                   </View>
                   <Text
                     style={{

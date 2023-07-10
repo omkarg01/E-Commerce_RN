@@ -4,12 +4,20 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {text} from '../text';
 import {components} from '../components';
-import {useAppNavigation} from '../hooks';
+import {useAppDispatch, useAppNavigation, useAppSelector} from '../hooks';
+import {saveAddress} from '../store/slices/cartSlice';
+import {AddressType} from '../types/AddressType';
+import {svg} from '../assets/svg';
 
 const AddANewAddress: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
+  const dispatch = useAppDispatch();
+  const addresses = useAppSelector((state) => state.cart.total);
+  const products = useAppSelector((state) => state.cart.list);
 
   const [selected, setSelected] = useState(false);
+  const [title, setTitle] = useState('');
+  const [address, setAddress] = useState('');
 
   const renderHeader = () => {
     return <components.Header title='Add a new address' goBack={true} />;
@@ -34,6 +42,7 @@ const AddANewAddress: React.FC = (): JSX.Element => {
   };
 
   const renderContent = () => {
+    console.log('address', address);
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={{
@@ -47,10 +56,11 @@ const AddANewAddress: React.FC = (): JSX.Element => {
       >
         <components.InputField
           label='title'
-          placeholder='Home'
+          placeholder='Home, Office or Other'
           containerStyle={{
             marginBottom: 22,
           }}
+          onChangeText={(text) => setTitle(text)}
         />
         <components.InputField
           label='new address'
@@ -58,6 +68,7 @@ const AddANewAddress: React.FC = (): JSX.Element => {
           containerStyle={{
             marginBottom: 22,
           }}
+          onChangeText={(text) => setAddress(text)}
         />
         <TouchableOpacity
           style={{marginBottom: 10, flexDirection: 'row', alignItems: 'center'}}
@@ -77,10 +88,18 @@ const AddANewAddress: React.FC = (): JSX.Element => {
   };
 
   const renderButton = () => {
+    const onSave = () => {
+      const newAddress: AddressType = {
+        type: title,
+        address: address,
+      };
+      dispatch(saveAddress(newAddress));
+      navigation.goBack();
+    };
     return (
       <components.Button
         title='save address'
-        onPress={() => navigation.goBack()}
+        onPress={onSave}
         containerStyle={{
           margin: 20,
         }}

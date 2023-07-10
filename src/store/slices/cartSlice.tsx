@@ -1,11 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {ProductType} from '../../types';
+import {AddressType} from '../../types/AddressType';
+import {svg} from '../../assets/svg';
 
 type CartItemType = {
   list: ProductType[];
   total: number;
   discount: number;
   delivery: number;
+  address: AddressType[];
 };
 
 const initialState: CartItemType = {
@@ -13,6 +16,13 @@ const initialState: CartItemType = {
   total: 0,
   discount: 0,
   delivery: 0,
+  address: [
+    {
+      id: 1,
+      type: 'Home',
+      address: '8000 S Kirkland Ave, Chicago, IL 6065...',
+    },
+  ],
 };
 
 const cartSlice = createSlice({
@@ -71,6 +81,10 @@ const cartSlice = createSlice({
         }, state);
       }
     },
+    saveAddress: (state, action: PayloadAction<AddressType>) => {
+      action.payload.id = state.list.length === 0 ? 1 : state.list.length + 1;
+      state.address.push(action.payload);
+    },
 
     resetCart: (state) => {
       state.list = [];
@@ -79,7 +93,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const {addToCart, removeFromCart, resetCart, fullRemoveFromCart} =
-  cartSlice.actions;
+export const {
+  addToCart,
+  saveAddress,
+  removeFromCart,
+  resetCart,
+  fullRemoveFromCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
