@@ -7,6 +7,7 @@ export type UserType = {
   email?: string;
   isAdmin?: boolean;
   accessToken?: string;
-  location?: string;
+  city?: string;
   image?: string;
+  phone?: string;
 };
