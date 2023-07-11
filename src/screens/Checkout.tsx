@@ -7,7 +7,7 @@ import {text} from '../text';
 import {svg} from '../assets/svg';
 import {theme} from '../constants';
 import {payments} from '../constants';
-import {addresses} from '../constants';
+// import {addresses} from '../constants';
 import {useAppSelector} from '../hooks';
 import {components} from '../components';
 import {useAppNavigation} from '../hooks';
@@ -21,11 +21,14 @@ import {
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
+  const addresses = useAppSelector((state) => state.cart.address);
+  console.log('addresses: ', addresses);
 
   const [shippingModal, setShippingModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
   const [address, setAddress] = useState(addresses[0].address);
   const [payment, setPayment] = useState(payments[0].type);
+  const [addressId, setAddressId] = useState(payments[0].id);
 
   const cart = useAppSelector((state) => state.cart.list);
   const delivery = useAppSelector((state) => state.cart.delivery).toFixed(0);
@@ -194,7 +197,7 @@ const Checkout: React.FC = (): JSX.Element => {
               color: theme.colors.textColor,
             }}
           >
-            7060/V Magan Nihar Complex, Mumbai - 4012...
+            {address}
           </Text>
         </View>
         <svg.SmallArrowSvg />
@@ -317,6 +320,7 @@ const Checkout: React.FC = (): JSX.Element => {
                   paddingHorizontal: 20,
                 }}
                 onPress={() => {
+                  setAddressId(item.id || 1);
                   setAddress(item.address);
                   setShippingModal(false);
                 }}
@@ -329,7 +333,13 @@ const Checkout: React.FC = (): JSX.Element => {
                       marginBottom: 10,
                     }}
                   >
-                    <item.icon />
+                    {item.type === 'Home' ? (
+                      <svg.HomeSvg />
+                    ) : item.type === 'Office' ? (
+                      <svg.BriefcaseSvg />
+                    ) : (
+                      <svg.MapPinSvg />
+                    )}
                     <Text
                       style={{
                         ...theme.fonts.H5,
@@ -363,7 +373,7 @@ const Checkout: React.FC = (): JSX.Element => {
                     alignItems: 'center',
                   }}
                 >
-                  {address === item.address && (
+                  {addressId === item.id && (
                     <View
                       style={{
                         width: 10,
@@ -502,7 +512,7 @@ const Checkout: React.FC = (): JSX.Element => {
         {renderDetails()}
         {renderShippingDetails()}
         {renderPaymentMethod()}
-        {renderCheckoutInput()}
+        {/* {renderCheckoutInput()} */}
       </KeyboardAwareScrollView>
     );
   };
