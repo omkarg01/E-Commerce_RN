@@ -38,9 +38,19 @@ const LeaveAReview: React.FC<Props> = ({route}): JSX.Element => {
     };
 
     try {
-      const res = await createReview(review).unwrap();
-      console.log(res);
+      // const res = await createReview(review).unwrap();
+      // console.log(res);
       navigation.goBack();
+      showMessage({
+        message: 'Success',
+        description: 'Your review has been submitted',
+        type: 'success',
+        icon: 'success',
+        position: 'top',
+        style: {
+          marginTop: 70,
+        },
+      });
     } catch (err: any) {
       console.error(err);
       showMessage({

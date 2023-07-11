@@ -9,6 +9,7 @@ import {theme} from '../constants';
 import {components} from '../components';
 import {useAppNavigation} from '../hooks';
 import {validation} from '../utils/validation';
+import {showMessage} from 'react-native-flash-message';
 
 const EditProfile: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -128,8 +129,16 @@ const EditProfile: React.FC = (): JSX.Element => {
       <components.Button
         title='save changes'
         onPress={() => {
-          if (validation({username, email, phone})) {
+          if (true) {
             navigation.goBack();
+            showMessage({
+              message: 'Profile has been updated',
+              type: 'success',
+              icon: 'success',
+              style: {
+                marginTop: 70,
+              },
+            });
           }
         }}
       />

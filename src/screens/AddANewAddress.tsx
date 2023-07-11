@@ -67,6 +67,15 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
           value={title}
           onChangeText={(text) => setTitle(text)}
         />
+        {/* <components.InputField
+          label='flat_no'
+          placeholder='Flat No'
+          containerStyle={{
+            marginBottom: 22,
+          }}
+          value={address}
+          onChangeText={(text) => setAddress(text)}
+        /> */}
         <components.InputField
           label='new address'
           placeholder='Enter your address'
@@ -76,6 +85,15 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
           value={address}
           onChangeText={(text) => setAddress(text)}
         />
+        {/* <components.InputField
+          label='new address'
+          placeholder='Enter your address'
+          containerStyle={{
+            marginBottom: 22,
+          }}
+          value={address}
+          onChangeText={(text) => setAddress(text)}
+        /> */}
         {/* <TouchableOpacity
           style={{marginBottom: 10, flexDirection: 'row', alignItems: 'center'}}
           onPress={() => setSelected(!selected)}
@@ -130,7 +148,7 @@ const AddANewAddress: React.FC<Props> = ({route}): JSX.Element => {
   return (
     <components.SafeAreaView>
       {renderHeader()}
-      {renderMap()}
+      {/* {renderMap()} */}
       {renderContent()}
       {renderButton()}
     </components.SafeAreaView>
