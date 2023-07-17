@@ -20,7 +20,6 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
     "@stripe/stripe-react-native": "^0.29.0",
-    "@stripe/stripe-terminal-react-native": "^0.0.1-beta.12",
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-native": "0.71.8",
