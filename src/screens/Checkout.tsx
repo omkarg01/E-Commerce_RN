@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {text} from '../text';
@@ -13,12 +13,14 @@ import {components} from '../components';
 import {useAppNavigation} from '../hooks';
 import {OrderType} from '../types/OrderType';
 import {PaymentResult} from '../types/PaymentResult';
-import {ProductType} from '../types';
 import {
   useCreateOrderMutation,
   usePayOrderMutation,
 } from '../store/slices/ordersApiSlice';
-import {StripeTerminalProvider} from '@stripe/stripe-terminal-react-native';
+import {initPaymentSheet} from '@stripe/stripe-react-native';
+// import {StripeTerminalProvider} from '@stripe/stripe-terminal-react-native';
+// import {useStripe} from '@stripe/react-stripe-js';
+import {useStripe} from '@stripe/stripe-react-native';
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -37,7 +39,9 @@ const Checkout: React.FC = (): JSX.Element => {
   const discount = useAppSelector((state) => state.cart.discount).toFixed(1);
   const email = useAppSelector((state) => state.auth.email);
 
-  // const [payOrder, {isLoading}] = usePayOrderMutation();
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
+  const [loading, setLoading] = useState(false);
+
   const [createOrder, {isLoading}] = useCreateOrderMutation();
 
   const total = (
@@ -46,18 +50,69 @@ const Checkout: React.FC = (): JSX.Element => {
     Number(delivery)
   ).toFixed(2);
 
+  useEffect(() => {
+    initializePaymentSheet();
+  }, []);
+
   const fetchTokenProvider = async () => {
-    const response = await fetch(
-      'http://127.0.0.1:5000/api/orders/connectionToken',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const response = await fetch('http://127.0.0.1:5000/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
     const {secret} = await response.json();
     return secret;
+  };
+
+  const fetchPaymentSheetParams = async () => {
+    const response = await fetch('http://localhost:5000/payment-sheet', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const {paymentIntent, ephemeralKey, customer} = await response.json();
+
+    // console.log(paymentIntent, ephemeralKey, customer);
+
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const {paymentIntent, ephemeralKey, customer} =
+      await fetchPaymentSheetParams();
+
+    const {error} = await initPaymentSheet({
+      merchantDisplayName: 'Example, Inc.',
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+      //methods that complete payment after a delay, like SEPA Debit and Sofort.
+      allowsDelayedPaymentMethods: true,
+      defaultBillingDetails: {
+        name: 'Jane Doe',
+      },
+    });
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  const openPaymentSheet = async () => {
+    const {error} = await presentPaymentSheet();
+
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      Alert.alert('Success', 'Your order is confirmed!');
+    }
   };
 
   const submitHandler = async () => {
@@ -287,6 +342,18 @@ const Checkout: React.FC = (): JSX.Element => {
           margin: 20,
         }}
         onPress={submitHandler}
+      />
+    );
+  };
+
+  const renderPayButton = () => {
+    return (
+      <components.Button
+        title='Checkout'
+        containerStyle={{
+          margin: 20,
+        }}
+        onPress={openPaymentSheet}
       />
     );
   };
@@ -527,6 +594,7 @@ const Checkout: React.FC = (): JSX.Element => {
         {renderDetails()}
         {renderShippingDetails()}
         {renderPaymentMethod()}
+        {renderPayButton()}
         {/* {renderCheckoutInput()} */}
       </KeyboardAwareScrollView>
     );
