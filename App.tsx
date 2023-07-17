@@ -14,7 +14,7 @@ import {
   getFCMToken,
   notificationListener,
 } from './src/utils/notificationHelper';
-import PushNotification from 'react-native-push-notification';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 enableScreens();
 
@@ -30,9 +30,11 @@ const App = () => {
       <components.StatusBar />
       <Provider store={store}>
         <PersistGate loading={<components.Loader />} persistor={persistor}>
-          <NavigationContainer>
-            <StackNavigator />
-          </NavigationContainer>
+          <StripeProvider publishableKey='pk_test_51JCOoESJtAOGSo1GjUJm9x0hW6UbSFo1Rhm1qH8QkXfm6egZZIG6hwzcaA6nwPLiUqK1uzSC0Z6zXbRIIk2L682O00p7Hz4FNn'>
+            <NavigationContainer>
+              <StackNavigator />
+            </NavigationContainer>
+          </StripeProvider>
         </PersistGate>
       </Provider>
       <FlashMessage position='top' floating={true} />

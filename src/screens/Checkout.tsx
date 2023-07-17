@@ -18,6 +18,7 @@ import {
   useCreateOrderMutation,
   usePayOrderMutation,
 } from '../store/slices/ordersApiSlice';
+import {StripeTerminalProvider} from '@stripe/stripe-terminal-react-native';
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
@@ -44,6 +45,20 @@ const Checkout: React.FC = (): JSX.Element => {
     Number(discount) +
     Number(delivery)
   ).toFixed(2);
+
+  const fetchTokenProvider = async () => {
+    const response = await fetch(
+      'http://127.0.0.1:5000/api/orders/connectionToken',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const {secret} = await response.json();
+    return secret;
+  };
 
   const submitHandler = async () => {
     // let currentDate = new Date().toISOString();

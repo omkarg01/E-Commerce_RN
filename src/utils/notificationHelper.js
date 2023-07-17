@@ -60,12 +60,14 @@ export const notificationListener = async () => {
 };
 
 export const createChannel = async () => {
-  PushNotification.channelExists('channel-id', (exists) => {
+  PushNotification.channelExists('channel-id3', (exists) => {
     if (!exists) {
       PushNotification.createChannel(
         {
-          channelId: 'channel-id', // (required)
-          channelName: 'My channel', // (required)
+          channelId: 'channel-id3', // (required)
+          channelName: 'My channel3', // (required)
+          playSound: true, // (optional) default: true
+          soundName: 'default', // (optional) default:
         },
         (created) => console.log(`createChannel returned '${created}'`),
       );

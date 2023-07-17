@@ -362,8 +362,8 @@ const Filter: React.FC<Props> = (): JSX.Element => {
         {renderStatus()}
         {renderPrice()}
         {renderRating()}
-        {renderColor()}
-        {renderSize()}
+        {/* {renderColor()} */}
+        {/* {renderSize()} */}
         {renderTags()}
       </ScrollView>
     );
