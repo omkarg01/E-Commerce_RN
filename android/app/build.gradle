@@ -104,6 +104,8 @@ android {
         versionName "1.0"
     }
 
+    
+
     splits {
         abi {
             reset()
@@ -120,6 +122,10 @@ android {
             keyPassword 'android'
         }
     }
+    packagingOptions {
+		exclude 'META-INF/mimetypes.default'
+		exclude 'META-INF/mailcap.default'
+	}
     buildTypes {
         debug {
             signingConfig signingConfigs.debug

@@ -27,6 +27,7 @@ export type RootStackParamList = {
   Product: {item: ProductType};
   SignUpAccountCreated: undefined;
   VerifyYourPhoneNumber: undefined;
+  VerifyYourEmail: {email: string};
   Reviews: {reviews: ReviewType[]};
   Description: {description: string};
   ForgotPasswordSentEmail: undefined;

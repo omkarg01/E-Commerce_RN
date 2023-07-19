@@ -32,6 +32,11 @@ const StackNavigator = () => {
         options={{headerShown: false}}
       />
       <RootStack.Screen
+        name='VerifyYourEmail'
+        component={screens.VerifyYourEmail}
+        options={{headerShown: false}}
+      />
+      <RootStack.Screen
         name='ForgotPassword'
         component={screens.ForgotPassword}
         options={{headerShown: false}}

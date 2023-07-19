@@ -24,6 +24,7 @@ import ConfirmationCode from './ConfirmationCode';
 import OrderHistory from './history/OrderHistory';
 import SignUpAccountCreated from './SignUpAccountCreated';
 import VerifyYourPhoneNumber from './VerifyYourPhoneNumber';
+import VerifyYourEmail from './VerifyYourEmail';
 import ForgotPasswordSentEmail from './ForgotPasswordSentEmail';
 
 // Tabs
@@ -66,4 +67,5 @@ export const screens = {
   PaymentMethod,
   AddANewCard,
   Filter,
+  VerifyYourEmail,
 };

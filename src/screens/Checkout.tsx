@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, Linking} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {text} from '../text';
@@ -17,15 +17,20 @@ import {
   useCreateOrderMutation,
   usePayOrderMutation,
 } from '../store/slices/ordersApiSlice';
-import {initPaymentSheet} from '@stripe/stripe-react-native';
+import {PlatformPay, initPaymentSheet} from '@stripe/stripe-react-native';
 // import {StripeTerminalProvider} from '@stripe/stripe-terminal-react-native';
 // import {useStripe} from '@stripe/react-stripe-js';
-import {useStripe} from '@stripe/stripe-react-native';
+import {
+  useStripe,
+  usePlatformPay,
+  PlatformPayButton,
+} from '@stripe/stripe-react-native';
 
 const Checkout: React.FC = (): JSX.Element => {
   const navigation = useAppNavigation();
   const addresses = useAppSelector((state) => state.cart.address);
   console.log('addresses: ', addresses);
+  const {isPlatformPaySupported, confirmPlatformPayPayment} = usePlatformPay();
 
   const [shippingModal, setShippingModal] = useState(false);
   const [paymentModal, setPaymentModal] = useState(false);
@@ -51,31 +56,144 @@ const Checkout: React.FC = (): JSX.Element => {
   ).toFixed(2);
 
   useEffect(() => {
+    // fetchUPIToken();
     initializePaymentSheet();
+    (async function () {
+      if (!(await isPlatformPaySupported({googlePay: {testEnv: true}}))) {
+        Alert.alert('Google Pay is not supported.');
+        return;
+      }
+    })();
   }, []);
 
-  const fetchTokenProvider = async () => {
-    const response = await fetch('http://127.0.0.1:5000/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+  // UPI
+  const fetchUPIToken = async () => {
+    try {
+      const axios = require('axios').default;
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const options = {
+        method: 'post',
+        url: 'https://uat.setu.co/api/v2/auth/token',
+        data: {
+          clientId: 'eb3bb3c7-1080-4c7c-bd6b-bfea671bceff',
+          secret: '45e3a7d3-b6ed-4782-8537-7ff2b3bcef78',
+        },
+      };
+
+      const {
+        data: {data},
+      } = await axios.request(options, config);
+
+      const token = data?.token;
+      // console.log('token', token);
+      return token;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchPaymentLink = async () => {
+    try {
+      // const fetch = await fetchUPIToken();
+      const token = 'Bearer ' + (await fetchUPIToken());
+      console.log(token);
+
+      // eslint-disable-next-line no-eval
+      const totalAmount: number = eval(total);
+      console.log(totalAmount);
+
+      const response = await fetch('https://uat.setu.co/api/v2/payment-links', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Setu-Product-Instance-ID': '1206651890318705895',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          billerBillID: 'EB-1123-345324',
+          amount: {
+            value: totalAmount * 100,
+            currencyCode: 'INR',
+          },
+          amountExactness: 'EXACT', //ENUM values—EXACT | EXACT_DOWN | ANY
+          name: 'Merchant', //specify this optionallly
+          transactionNote: 'Payment for ABC bill', //optional
+          additionalInfo: {
+            UUID: 'b6b6f173-8649-4b2e-9c22-f78e9195a23e',
+            tags: 'electricity',
+          },
+        }),
+      });
+
+      const {data} = await response.json();
+
+      console.log('upi Link', data.paymentLink.upiLink);
+      Linking.openURL(data.paymentLink.upiLink);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchPaymentIntentClientSecret = async () => {
+    // Fetch payment intent created on the server, see above
+    const response = await fetch(
+      'http://192.168.0.103:5000/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify({
+        //   currency: 'usd',
+        // }),
+      },
+    );
+    const {clientSecret} = await response.json();
+    console.log(clientSecret);
+
+    return clientSecret;
+  };
+
+  const pay = async () => {
+    const clientSecret = await fetchPaymentIntentClientSecret();
+
+    const {error} = await confirmPlatformPayPayment(clientSecret, {
+      googlePay: {
+        testEnv: true,
+        merchantName: 'My merchant name',
+        merchantCountryCode: 'US',
+        currencyCode: 'USD',
+        billingAddressConfig: {
+          format: PlatformPay.BillingAddressFormat.Full,
+          isPhoneNumberRequired: true,
+          isRequired: true,
+        },
       },
     });
-    const {secret} = await response.json();
-    return secret;
+
+    if (error) {
+      Alert.alert(error.code, error.message);
+      // Update UI to prompt user to retry payment (and possibly another payment method)
+      return;
+    }
+    Alert.alert('Success', 'The payment was confirmed successfully.');
   };
 
   const fetchPaymentSheetParams = async () => {
-    const response = await fetch('http://localhost:5000/payment-sheet', {
+    const response = await fetch('http://192.168.0.103:5000/payment-sheet', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      // body: JSON.stringify({amount: 12}),
     });
 
     const {paymentIntent, ephemeralKey, customer} = await response.json();
-
-    // console.log(paymentIntent, ephemeralKey, customer);
 
     return {
       paymentIntent,
@@ -93,11 +211,10 @@ const Checkout: React.FC = (): JSX.Element => {
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
-      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-      //methods that complete payment after a delay, like SEPA Debit and Sofort.
       allowsDelayedPaymentMethods: true,
-      defaultBillingDetails: {
-        name: 'Jane Doe',
+      googlePay: {
+        merchantCountryCode: 'IN',
+        testEnv: true, // use test environment
       },
     });
     if (!error) {
@@ -357,6 +474,21 @@ const Checkout: React.FC = (): JSX.Element => {
       />
     );
   };
+  const renderGPayButton = () => {
+    return (
+      <View>
+        <PlatformPayButton
+          type={PlatformPay.ButtonType.Pay}
+          // onPress={pay}
+          onPress={fetchPaymentLink}
+          style={{
+            width: '100%',
+            height: 50,
+          }}
+        />
+      </View>
+    );
+  };
 
   const renderShippingModal = () => {
     return (
@@ -595,6 +727,7 @@ const Checkout: React.FC = (): JSX.Element => {
         {renderShippingDetails()}
         {renderPaymentMethod()}
         {renderPayButton()}
+        {renderGPayButton()}
         {/* {renderCheckoutInput()} */}
       </KeyboardAwareScrollView>
     );
